@@ -24,16 +24,17 @@ public class GamePlayer implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 1)
     @Column(name = "turn_order", nullable = false)
     private Integer turnOrder;
 
     @Column(name = "score")
-    private Integer score;
+    private Integer score = 0;
 
     @Size(min = 7, max = 7)
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Pattern(regexp = "^[A-Z?_]*$")
     @Column(name = "rack", length = 7)
-    private String rack;
+    private String rack = "_______";
 
     @ManyToOne
     @JsonIgnoreProperties("gamePlayers")
