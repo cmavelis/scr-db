@@ -1,7 +1,15 @@
 {
     "fluentMethods": true,
     "clientRootFolder": "scrabbledb2",
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "game",
+            "otherEntityName": "game",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "gamePlayer"
+        }
+    ],
     "fields": [
         {
             "fieldName": "turnOrder",

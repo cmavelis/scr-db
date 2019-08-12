@@ -1,4 +1,5 @@
 package com.bookerdimaio.scrabbledev.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -26,6 +27,10 @@ public class GamePlayer implements Serializable {
     @Column(name = "turn_order", nullable = false)
     private Integer turnOrder;
 
+    @ManyToOne
+    @JsonIgnoreProperties("gamePlayers")
+    private Game game;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -46,6 +51,19 @@ public class GamePlayer implements Serializable {
 
     public void setTurnOrder(Integer turnOrder) {
         this.turnOrder = turnOrder;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public GamePlayer game(Game game) {
+        this.game = game;
+        return this;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

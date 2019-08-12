@@ -12,6 +12,9 @@ import org.mapstruct.*;
 public interface GameMapper extends EntityMapper<GameDTO, Game> {
 
 
+    @Mapping(target = "gamePlayers", ignore = true)
+    @Mapping(target = "removeGamePlayers", ignore = true)
+    Game toEntity(GameDTO gameDTO);
 
     default Game fromId(Long id) {
         if (id == null) {
