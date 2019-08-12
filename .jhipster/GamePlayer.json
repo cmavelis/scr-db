@@ -22,8 +22,6 @@
             "fieldName": "turnOrder",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "minlength",
-                "maxlength",
                 "required"
             ],
             "fieldValidateRulesMinlength": "1",

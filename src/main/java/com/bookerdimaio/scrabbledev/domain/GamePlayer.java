@@ -24,7 +24,8 @@ public class GamePlayer implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 1)
+    @Min(0)
+    @Max(3)
     @Column(name = "turn_order", nullable = false)
     private Integer turnOrder;
 

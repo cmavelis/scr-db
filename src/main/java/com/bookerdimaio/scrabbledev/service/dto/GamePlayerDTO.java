@@ -11,7 +11,8 @@ public class GamePlayerDTO implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 1)
+    @Min(0)
+    @Max(3)
     private Integer turnOrder;
 
     private Integer score;
