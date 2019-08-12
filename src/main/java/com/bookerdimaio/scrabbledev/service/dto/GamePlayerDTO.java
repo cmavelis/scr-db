@@ -16,6 +16,8 @@ public class GamePlayerDTO implements Serializable {
 
     private Long gameId;
 
+    private Long playerId;
+
     public Long getId() {
         return id;
     }
@@ -38,6 +40,14 @@ public class GamePlayerDTO implements Serializable {
 
     public void setGameId(Long gameId) {
         this.gameId = gameId;
+    }
+
+    public Long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
     }
 
     @Override
@@ -67,6 +77,7 @@ public class GamePlayerDTO implements Serializable {
             "id=" + getId() +
             ", turnOrder=" + getTurnOrder() +
             ", game=" + getGameId() +
+            ", player=" + getPlayerId() +
             "}";
     }
 }

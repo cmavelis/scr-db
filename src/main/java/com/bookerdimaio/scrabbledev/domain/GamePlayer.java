@@ -31,6 +31,10 @@ public class GamePlayer implements Serializable {
     @JsonIgnoreProperties("gamePlayers")
     private Game game;
 
+    @ManyToOne
+    @JsonIgnoreProperties("gamePlayers")
+    private Player player;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -64,6 +68,19 @@ public class GamePlayer implements Serializable {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public GamePlayer player(Player player) {
+        this.player = player;
+        return this;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
