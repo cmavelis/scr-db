@@ -11,12 +11,13 @@ public class GamePlayerDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 1)
     private Integer turnOrder;
 
     private Integer score;
 
     @Size(min = 7, max = 7)
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Pattern(regexp = "^[A-Z?_]*$")
     private String rack;
 
 
