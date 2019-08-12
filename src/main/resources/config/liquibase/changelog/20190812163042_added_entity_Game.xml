@@ -19,9 +19,18 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="state" type="varchar(225)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="start_time" type="datetime">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
+        <dropDefaultValue tableName="game" columnName="start_time" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20190812163042-1-relations" author="jhipster">
@@ -44,6 +53,8 @@
                   tableName="game">
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
+            <column name="state" type="string"/>
+            <column name="start_time" type="datetime"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

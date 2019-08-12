@@ -3,8 +3,10 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +27,13 @@ public class Game implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @Size(min = 225, max = 225)
+    @Column(name = "state", length = 225)
+    private String state;
+
+    @Column(name = "start_time")
+    private Instant start_time;
 
     @OneToMany(mappedBy = "game")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -50,6 +59,32 @@ public class Game implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public Game state(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Instant getStart_time() {
+        return start_time;
+    }
+
+    public Game start_time(Instant start_time) {
+        this.start_time = start_time;
+        return this;
+    }
+
+    public void setStart_time(Instant start_time) {
+        this.start_time = start_time;
     }
 
     public Set<GamePlayer> getGamePlayers() {
@@ -99,6 +134,8 @@ public class Game implements Serializable {
         return "Game{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", state='" + getState() + "'" +
+            ", start_time='" + getStart_time() + "'" +
             "}";
     }
 }

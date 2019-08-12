@@ -1,4 +1,6 @@
 package com.bookerdimaio.scrabbledev.service.dto;
+import java.time.Instant;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,6 +12,11 @@ public class GameDTO implements Serializable {
     private Long id;
 
     private String name;
+
+    @Size(min = 225, max = 225)
+    private String state;
+
+    private Instant start_time;
 
 
     public Long getId() {
@@ -26,6 +33,22 @@ public class GameDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Instant getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(Instant start_time) {
+        this.start_time = start_time;
     }
 
     @Override
@@ -54,6 +77,8 @@ public class GameDTO implements Serializable {
         return "GameDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", state='" + getState() + "'" +
+            ", start_time='" + getStart_time() + "'" +
             "}";
     }
 }

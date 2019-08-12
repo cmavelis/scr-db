@@ -13,6 +13,20 @@
         {
             "fieldName": "name",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "225",
+            "fieldValidateRulesMaxlength": "225"
+        },
+        {
+            "fieldName": "start_time",
+            "fieldType": "Instant"
         }
     ],
     "changelogDate": "20190812163042",

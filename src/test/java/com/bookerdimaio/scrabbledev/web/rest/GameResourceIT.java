@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.bookerdimaio.scrabbledev.web.rest.TestUtil.createFormattingConversionService;
@@ -38,6 +40,12 @@ public class GameResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_STATE = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    private static final String UPDATED_STATE = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+
+    private static final Instant DEFAULT_START_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private GameRepository gameRepository;
@@ -87,7 +95,9 @@ public class GameResourceIT {
      */
     public static Game createEntity(EntityManager em) {
         Game game = new Game()
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .state(DEFAULT_STATE)
+            .start_time(DEFAULT_START_TIME);
         return game;
     }
     /**
@@ -98,7 +108,9 @@ public class GameResourceIT {
      */
     public static Game createUpdatedEntity(EntityManager em) {
         Game game = new Game()
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .state(UPDATED_STATE)
+            .start_time(UPDATED_START_TIME);
         return game;
     }
 
@@ -124,6 +136,8 @@ public class GameResourceIT {
         assertThat(gameList).hasSize(databaseSizeBeforeCreate + 1);
         Game testGame = gameList.get(gameList.size() - 1);
         assertThat(testGame.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testGame.getState()).isEqualTo(DEFAULT_STATE);
+        assertThat(testGame.getStart_time()).isEqualTo(DEFAULT_START_TIME);
     }
 
     @Test
@@ -158,7 +172,9 @@ public class GameResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(game.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
+            .andExpect(jsonPath("$.[*].start_time").value(hasItem(DEFAULT_START_TIME.toString())));
     }
     
     @Test
@@ -172,7 +188,9 @@ public class GameResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(game.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.state").value(DEFAULT_STATE.toString()))
+            .andExpect(jsonPath("$.start_time").value(DEFAULT_START_TIME.toString()));
     }
 
     @Test
@@ -196,7 +214,9 @@ public class GameResourceIT {
         // Disconnect from session so that the updates on updatedGame are not directly saved in db
         em.detach(updatedGame);
         updatedGame
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .state(UPDATED_STATE)
+            .start_time(UPDATED_START_TIME);
         GameDTO gameDTO = gameMapper.toDto(updatedGame);
 
         restGameMockMvc.perform(put("/api/games")
@@ -209,6 +229,8 @@ public class GameResourceIT {
         assertThat(gameList).hasSize(databaseSizeBeforeUpdate);
         Game testGame = gameList.get(gameList.size() - 1);
         assertThat(testGame.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testGame.getState()).isEqualTo(UPDATED_STATE);
+        assertThat(testGame.getStart_time()).isEqualTo(UPDATED_START_TIME);
     }
 
     @Test
