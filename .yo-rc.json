@@ -1,0 +1,42 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.bookerdimaio.scrabbledev",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.1.2",
+    "applicationType": "microservice",
+    "baseName": "scrabbledb2",
+    "packageName": "com.bookerdimaio.scrabbledev",
+    "packageFolder": "com/bookerdimaio/scrabbledev",
+    "serverPort": "8082",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OGRmZGQzNDU4NGJmNmZiNDQ3MjVjNWYwYzQ4YWUwNmY3NmZkZTgzYTBkNDkyZGMyMDM0NWE1YWY1NjViYTdkZWE2Y2I3NzU5ZGU3NmNmZWJmZmM0Mzg4MjE0YWI4ZWFjNzY5NTMzMzRkYzhmNTJlYWFkYWQ4OTVjYmQ2NTM1MGY=",
+    "testFrameworks": [
+      "gatling"
+    ],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
