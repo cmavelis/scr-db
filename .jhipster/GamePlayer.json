@@ -22,10 +22,12 @@
             "fieldName": "turnOrder",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
+                "required",
+                "min",
+                "max"
             ],
-            "fieldValidateRulesMinlength": "1",
-            "fieldValidateRulesMaxlength": "1"
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": "3"
         },
         {
             "fieldName": "score",
