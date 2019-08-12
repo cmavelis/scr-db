@@ -24,6 +24,22 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "rack",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength",
+                "pattern"
+            ],
+            "fieldValidateRulesMinlength": "7",
+            "fieldValidateRulesMaxlength": "7",
+            "fieldValidateRulesPattern": "^[a-zA-Z0-9]*$"
         }
     ],
     "changelogDate": "20190812165119",

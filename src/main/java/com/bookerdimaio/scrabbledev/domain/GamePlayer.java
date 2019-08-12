@@ -27,6 +27,14 @@ public class GamePlayer implements Serializable {
     @Column(name = "turn_order", nullable = false)
     private Integer turnOrder;
 
+    @Column(name = "score")
+    private Integer score;
+
+    @Size(min = 7, max = 7)
+    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Column(name = "rack", length = 7)
+    private String rack;
+
     @ManyToOne
     @JsonIgnoreProperties("gamePlayers")
     private Game game;
@@ -55,6 +63,32 @@ public class GamePlayer implements Serializable {
 
     public void setTurnOrder(Integer turnOrder) {
         this.turnOrder = turnOrder;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public GamePlayer score(Integer score) {
+        this.score = score;
+        return this;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public String getRack() {
+        return rack;
+    }
+
+    public GamePlayer rack(String rack) {
+        this.rack = rack;
+        return this;
+    }
+
+    public void setRack(String rack) {
+        this.rack = rack;
     }
 
     public Game getGame() {
@@ -105,6 +139,8 @@ public class GamePlayer implements Serializable {
         return "GamePlayer{" +
             "id=" + getId() +
             ", turnOrder=" + getTurnOrder() +
+            ", score=" + getScore() +
+            ", rack='" + getRack() + "'" +
             "}";
     }
 }

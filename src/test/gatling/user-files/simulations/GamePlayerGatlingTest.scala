@@ -73,6 +73,8 @@ class GamePlayerGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "turnOrder":"0"
+                , "score":"0"
+                , "rack":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_gamePlayer_url"))).exitHereIfFailed

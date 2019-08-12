@@ -39,6 +39,12 @@ public class GamePlayerResourceIT {
     private static final Integer DEFAULT_TURN_ORDER = 1;
     private static final Integer UPDATED_TURN_ORDER = 2;
 
+    private static final Integer DEFAULT_SCORE = 1;
+    private static final Integer UPDATED_SCORE = 2;
+
+    private static final String DEFAULT_RACK = "AAAAAAA";
+    private static final String UPDATED_RACK = "BBBBBBB";
+
     @Autowired
     private GamePlayerRepository gamePlayerRepository;
 
@@ -87,7 +93,9 @@ public class GamePlayerResourceIT {
      */
     public static GamePlayer createEntity(EntityManager em) {
         GamePlayer gamePlayer = new GamePlayer()
-            .turnOrder(DEFAULT_TURN_ORDER);
+            .turnOrder(DEFAULT_TURN_ORDER)
+            .score(DEFAULT_SCORE)
+            .rack(DEFAULT_RACK);
         return gamePlayer;
     }
     /**
@@ -98,7 +106,9 @@ public class GamePlayerResourceIT {
      */
     public static GamePlayer createUpdatedEntity(EntityManager em) {
         GamePlayer gamePlayer = new GamePlayer()
-            .turnOrder(UPDATED_TURN_ORDER);
+            .turnOrder(UPDATED_TURN_ORDER)
+            .score(UPDATED_SCORE)
+            .rack(UPDATED_RACK);
         return gamePlayer;
     }
 
@@ -124,6 +134,8 @@ public class GamePlayerResourceIT {
         assertThat(gamePlayerList).hasSize(databaseSizeBeforeCreate + 1);
         GamePlayer testGamePlayer = gamePlayerList.get(gamePlayerList.size() - 1);
         assertThat(testGamePlayer.getTurnOrder()).isEqualTo(DEFAULT_TURN_ORDER);
+        assertThat(testGamePlayer.getScore()).isEqualTo(DEFAULT_SCORE);
+        assertThat(testGamePlayer.getRack()).isEqualTo(DEFAULT_RACK);
     }
 
     @Test
@@ -177,7 +189,9 @@ public class GamePlayerResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(gamePlayer.getId().intValue())))
-            .andExpect(jsonPath("$.[*].turnOrder").value(hasItem(DEFAULT_TURN_ORDER)));
+            .andExpect(jsonPath("$.[*].turnOrder").value(hasItem(DEFAULT_TURN_ORDER)))
+            .andExpect(jsonPath("$.[*].score").value(hasItem(DEFAULT_SCORE)))
+            .andExpect(jsonPath("$.[*].rack").value(hasItem(DEFAULT_RACK.toString())));
     }
     
     @Test
@@ -191,7 +205,9 @@ public class GamePlayerResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(gamePlayer.getId().intValue()))
-            .andExpect(jsonPath("$.turnOrder").value(DEFAULT_TURN_ORDER));
+            .andExpect(jsonPath("$.turnOrder").value(DEFAULT_TURN_ORDER))
+            .andExpect(jsonPath("$.score").value(DEFAULT_SCORE))
+            .andExpect(jsonPath("$.rack").value(DEFAULT_RACK.toString()));
     }
 
     @Test
@@ -215,7 +231,9 @@ public class GamePlayerResourceIT {
         // Disconnect from session so that the updates on updatedGamePlayer are not directly saved in db
         em.detach(updatedGamePlayer);
         updatedGamePlayer
-            .turnOrder(UPDATED_TURN_ORDER);
+            .turnOrder(UPDATED_TURN_ORDER)
+            .score(UPDATED_SCORE)
+            .rack(UPDATED_RACK);
         GamePlayerDTO gamePlayerDTO = gamePlayerMapper.toDto(updatedGamePlayer);
 
         restGamePlayerMockMvc.perform(put("/api/game-players")
@@ -228,6 +246,8 @@ public class GamePlayerResourceIT {
         assertThat(gamePlayerList).hasSize(databaseSizeBeforeUpdate);
         GamePlayer testGamePlayer = gamePlayerList.get(gamePlayerList.size() - 1);
         assertThat(testGamePlayer.getTurnOrder()).isEqualTo(UPDATED_TURN_ORDER);
+        assertThat(testGamePlayer.getScore()).isEqualTo(UPDATED_SCORE);
+        assertThat(testGamePlayer.getRack()).isEqualTo(UPDATED_RACK);
     }
 
     @Test

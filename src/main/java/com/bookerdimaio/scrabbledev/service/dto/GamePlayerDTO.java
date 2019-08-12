@@ -13,6 +13,12 @@ public class GamePlayerDTO implements Serializable {
     @NotNull
     private Integer turnOrder;
 
+    private Integer score;
+
+    @Size(min = 7, max = 7)
+    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    private String rack;
+
 
     private Long gameId;
 
@@ -32,6 +38,22 @@ public class GamePlayerDTO implements Serializable {
 
     public void setTurnOrder(Integer turnOrder) {
         this.turnOrder = turnOrder;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public String getRack() {
+        return rack;
+    }
+
+    public void setRack(String rack) {
+        this.rack = rack;
     }
 
     public Long getGameId() {
@@ -76,6 +98,8 @@ public class GamePlayerDTO implements Serializable {
         return "GamePlayerDTO{" +
             "id=" + getId() +
             ", turnOrder=" + getTurnOrder() +
+            ", score=" + getScore() +
+            ", rack='" + getRack() + "'" +
             ", game=" + getGameId() +
             ", player=" + getPlayerId() +
             "}";

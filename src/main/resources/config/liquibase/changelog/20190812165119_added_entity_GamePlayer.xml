@@ -19,6 +19,14 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="score" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="rack" type="varchar(7)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="game_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -52,6 +60,8 @@
                   tableName="game_player">
             <column name="id" type="numeric"/>
             <column name="turn_order" type="numeric"/>
+            <column name="score" type="numeric"/>
+            <column name="rack" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
