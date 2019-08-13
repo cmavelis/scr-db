@@ -35,6 +35,14 @@ public interface PlayerService {
     Optional<PlayerDTO> findOne(Long id);
 
     /**
+     * Get the "name" player.
+     *
+     * @param name the name of the entity.
+     * @return the entity.
+     */
+    Optional<PlayerDTO> findOneByName(String name);
+
+    /**
      * Delete the "id" player.
      *
      * @param id the id of the entity.
