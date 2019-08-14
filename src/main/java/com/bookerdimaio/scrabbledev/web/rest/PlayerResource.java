@@ -94,12 +94,15 @@ public class PlayerResource {
      * {@code GET  /players/name/:name} : get the "name" player.
      *
      * @param name the name of the playerDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the playerDTO, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the playerDTO, or with status {@code 204 (No Content)}.
      */
     @GetMapping("/players/name/{name}")
     public ResponseEntity<PlayerDTO> getNamedPlayer(@PathVariable String name) {
         log.debug("REST request to get Player : {}", name);
         Optional<PlayerDTO> playerDTO = playerService.findOneByName(name);
+        if (!playerDTO.isPresent()) {
+            return ResponseEntity.noContent().headers(null).build();
+        }
         return ResponseUtil.wrapOrNotFound(playerDTO);
     }
 
