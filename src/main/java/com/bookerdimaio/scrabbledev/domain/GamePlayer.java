@@ -103,7 +103,11 @@ public class GamePlayer implements Serializable {
     }
 
     public void setGame(Game game) {
+        if (game == this.game) {
+            return;
+        }
         this.game = game;
+        game.addGamePlayers(this);
     }
 
     public Player getPlayer() {
