@@ -97,8 +97,7 @@ public class Game implements Serializable {
     }
 
     public Game addGamePlayers(GamePlayer gamePlayer) {
-        if (this.gamePlayers.contains(gamePlayer)) { return this; }
-        this.getGamePlayers().add(gamePlayer);
+        this.gamePlayers.add(gamePlayer);
         gamePlayer.setGame(this);
         return this;
     }
@@ -109,7 +108,7 @@ public class Game implements Serializable {
         return this;
     }
 
-    protected void setGamePlayers(Set<GamePlayer> gamePlayers) {
+    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

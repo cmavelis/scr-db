@@ -1,7 +1,5 @@
 package com.bookerdimaio.scrabbledev.service.impl;
 
-import com.bookerdimaio.scrabbledev.domain.Game;
-import com.bookerdimaio.scrabbledev.repository.GameRepository;
 import com.bookerdimaio.scrabbledev.service.GamePlayerService;
 import com.bookerdimaio.scrabbledev.domain.GamePlayer;
 import com.bookerdimaio.scrabbledev.repository.GamePlayerRepository;
@@ -31,11 +29,8 @@ public class GamePlayerServiceImpl implements GamePlayerService {
 
     private final GamePlayerMapper gamePlayerMapper;
 
-    private final GameRepository gameRepository;
-
-    public GamePlayerServiceImpl(GamePlayerRepository gamePlayerRepository, GamePlayerMapper gamePlayerMapper, GameRepository gameRepository) {
+    public GamePlayerServiceImpl(GamePlayerRepository gamePlayerRepository, GamePlayerMapper gamePlayerMapper) {
         this.gamePlayerRepository = gamePlayerRepository;
-        this.gameRepository = gameRepository;
         this.gamePlayerMapper = gamePlayerMapper;
     }
 
@@ -50,12 +45,6 @@ public class GamePlayerServiceImpl implements GamePlayerService {
         log.debug("Request to save GamePlayer : {}", gamePlayerDTO);
         GamePlayer gamePlayer = gamePlayerMapper.toEntity(gamePlayerDTO);
         gamePlayer = gamePlayerRepository.save(gamePlayer);
-
-        Game game = gameRepository.getOne(gamePlayer.getGame().getId());
-        Game newGame = game.addGamePlayers(gamePlayer);
-        gameRepository.save(newGame);
-        log.debug("GamePlayer added to Game : {}", newGame.toString());
-
         return gamePlayerMapper.toDto(gamePlayer);
     }
 
