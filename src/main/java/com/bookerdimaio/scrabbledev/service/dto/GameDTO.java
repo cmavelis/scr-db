@@ -1,8 +1,12 @@
 package com.bookerdimaio.scrabbledev.service.dto;
+import com.bookerdimaio.scrabbledev.domain.GamePlayer;
+
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.bookerdimaio.scrabbledev.domain.Game} entity.
@@ -17,6 +21,8 @@ public class GameDTO implements Serializable {
     private String state;
 
     private Instant start_time;
+
+    private Set<GamePlayer> gamePlayers = new HashSet<>();
 
 
     public Long getId() {
@@ -50,6 +56,11 @@ public class GameDTO implements Serializable {
     public void setStart_time(Instant start_time) {
         this.start_time = start_time;
     }
+
+    public Set<GamePlayer> getGamePlayers() { return gamePlayers; }
+
+    public void setGamePlayers(Set<GamePlayer> gamePlayers) { this.gamePlayers = gamePlayers; }
+
 
     @Override
     public boolean equals(Object o) {
