@@ -3,6 +3,7 @@ package com.bookerdimaio.scrabbledev.web.rest;
 import com.bookerdimaio.scrabbledev.Scrabbledb2App;
 import com.bookerdimaio.scrabbledev.domain.Game;
 import com.bookerdimaio.scrabbledev.repository.GameRepository;
+import com.bookerdimaio.scrabbledev.service.GamePlayerService;
 import com.bookerdimaio.scrabbledev.service.GameService;
 import com.bookerdimaio.scrabbledev.service.dto.GameDTO;
 import com.bookerdimaio.scrabbledev.service.mapper.GameMapper;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@Link GameResource} REST controller.
  */
 @SpringBootTest(classes = Scrabbledb2App.class)
-public class GameResourceIT {
+public class  GameResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
@@ -55,6 +56,9 @@ public class GameResourceIT {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private GamePlayerService gamePlayerService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -78,7 +82,7 @@ public class GameResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final GameResource gameResource = new GameResource(gameService);
+        final GameResource gameResource = new GameResource(gameService, gamePlayerService);
         this.restGameMockMvc = MockMvcBuilders.standaloneSetup(gameResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -176,7 +180,7 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
             .andExpect(jsonPath("$.[*].start_time").value(hasItem(DEFAULT_START_TIME.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getGame() throws Exception {
