@@ -39,10 +39,12 @@ public class GamePlayer implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("gamePlayers")
+    @JoinColumn(name = "game_id")
     private Game game;
 
     @ManyToOne
     @JsonIgnoreProperties("gamePlayers")
+    @JoinColumn(name = "player_id")
     private Player player;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
