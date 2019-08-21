@@ -8,10 +8,10 @@ import java.util.List;
 
 public class GameWithPlayersDTO extends GameDTO {
 
-    private List<Player> playersToAdd = new ArrayList<>();
+    private List<Long> playersToAdd = new ArrayList<>();
 
-    public List<Player> getPlayersToAdd() { return playersToAdd; }
+    public List<Long> getPlayersToAdd() { return playersToAdd; }
 
-    public void setPlayersToAdd(List<Player> playersToAdd) { this.playersToAdd = playersToAdd; }
+    public void setPlayersToAdd(List<Long> playersToAdd) { this.playersToAdd = playersToAdd; }
 
 }

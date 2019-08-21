@@ -21,7 +21,6 @@ public class GamePlayerDTO implements Serializable {
     @Pattern(regexp = "^[A-Z?_]*$")
     private String rack;
 
-
     private Long gameId;
 
     private Long playerId;

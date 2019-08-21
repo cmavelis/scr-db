@@ -1,13 +1,12 @@
 package com.bookerdimaio.scrabbledev.web.rest;
 
-import com.bookerdimaio.scrabbledev.domain.GamePlayer;
-import com.bookerdimaio.scrabbledev.domain.Player;
 import com.bookerdimaio.scrabbledev.service.GameService;
 import com.bookerdimaio.scrabbledev.service.GamePlayerService;
 import com.bookerdimaio.scrabbledev.service.dto.GameWithPlayersDTO;
 import com.bookerdimaio.scrabbledev.web.rest.errors.BadRequestAlertException;
 import com.bookerdimaio.scrabbledev.service.dto.GameDTO;
 import com.bookerdimaio.scrabbledev.service.dto.GamePlayerDTO;
+import com.bookerdimaio.scrabbledev.service.dto.PlayerDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -82,7 +81,7 @@ public class GameResource {
 
         GameDTO result = gameService.save(gameWithPlayersDTO);
 
-        List<Player> playersToAdd = gameWithPlayersDTO.getPlayersToAdd();
+        List<Long> playersToAdd = gameWithPlayersDTO.getPlayersToAdd();
         log.debug("Incoming list : {}", playersToAdd);
         GamePlayerDTO gamePlayerDTO = new GamePlayerDTO();
         gamePlayerDTO.setScore(0);
@@ -90,13 +89,15 @@ public class GameResource {
         gamePlayerDTO.setGameId(result.getId());
 
         for (int i = 0; i < playersToAdd.size(); i++) {
+            Long playerId = playersToAdd.get(i);
+            if (playerId == null) { continue; }
             gamePlayerDTO.setTurnOrder(i);
-            gamePlayerDTO.setPlayerId(playersToAdd.get(i).getId());
+            gamePlayerDTO.setPlayerId(playersToAdd.get(i));
             gamePlayerService.save(gamePlayerDTO);
             log.debug("Creating GamePlayer for : {}", playersToAdd.get(i));
         }
 
-        return ResponseEntity.created(new URI("/api//games/players" + result.getId()))
+        return ResponseEntity.created(new URI("/api/games/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
