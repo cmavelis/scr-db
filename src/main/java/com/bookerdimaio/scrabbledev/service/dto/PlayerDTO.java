@@ -1,4 +1,5 @@
 package com.bookerdimaio.scrabbledev.service.dto;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class PlayerDTO implements Serializable {
 
     private Long id;
 
+    @Size(max = 12)
     private String name;
 
 

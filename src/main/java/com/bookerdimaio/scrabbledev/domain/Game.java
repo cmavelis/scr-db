@@ -35,7 +35,7 @@ public class Game implements Serializable {
     @Column(name = "start_time")
     private Instant start_time;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = {CascadeType.ALL})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
@@ -97,6 +97,7 @@ public class Game implements Serializable {
     }
 
     public Game addGamePlayers(GamePlayer gamePlayer) {
+        if (this.gamePlayers.contains(gamePlayer)) { return this; }
         this.gamePlayers.add(gamePlayer);
         gamePlayer.setGame(this);
         return this;
@@ -108,7 +109,7 @@ public class Game implements Serializable {
         return this;
     }
 
-    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
+    protected void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

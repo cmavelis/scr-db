@@ -78,6 +78,20 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     /**
+     * Get one player by name.
+     *
+     * @param name the name of the entity.
+     * @return the entity.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<PlayerDTO> findOneByName(String name) {
+        log.debug("Request to get Player : {}", name);
+        return playerRepository.findByName(name)
+            .map(playerMapper::toDto);
+    }
+
+    /**
      * Delete the player by id.
      *
      * @param id the id of the entity.

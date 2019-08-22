@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -46,7 +47,7 @@ public class PlayerResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/players")
-    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody PlayerDTO playerDTO) throws URISyntaxException {
+    public ResponseEntity<PlayerDTO> createPlayer(@Valid @RequestBody PlayerDTO playerDTO) throws URISyntaxException {
         log.debug("REST request to save Player : {}", playerDTO);
         if (playerDTO.getId() != null) {
             throw new BadRequestAlertException("A new player cannot already have an ID", ENTITY_NAME, "idexists");
@@ -67,7 +68,7 @@ public class PlayerResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/players")
-    public ResponseEntity<PlayerDTO> updatePlayer(@RequestBody PlayerDTO playerDTO) throws URISyntaxException {
+    public ResponseEntity<PlayerDTO> updatePlayer(@Valid @RequestBody PlayerDTO playerDTO) throws URISyntaxException {
         log.debug("REST request to update Player : {}", playerDTO);
         if (playerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -87,6 +88,22 @@ public class PlayerResource {
     public List<PlayerDTO> getAllPlayers() {
         log.debug("REST request to get all Players");
         return playerService.findAll();
+    }
+
+    /**
+     * {@code GET  /players/name/:name} : get the "name" player.
+     *
+     * @param name the name of the playerDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the playerDTO, or with status {@code 204 (No Content)}.
+     */
+    @GetMapping("/players/name/{name}")
+    public ResponseEntity<PlayerDTO> getNamedPlayer(@PathVariable String name) {
+        log.debug("REST request to get Player : {}", name);
+        Optional<PlayerDTO> playerDTO = playerService.findOneByName(name);
+        if (!playerDTO.isPresent()) {
+            return ResponseEntity.noContent().headers(null).build();
+        }
+        return ResponseUtil.wrapOrNotFound(playerDTO);
     }
 
     /**

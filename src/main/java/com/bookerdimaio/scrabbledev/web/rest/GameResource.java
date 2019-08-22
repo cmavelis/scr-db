@@ -1,8 +1,12 @@
 package com.bookerdimaio.scrabbledev.web.rest;
 
 import com.bookerdimaio.scrabbledev.service.GameService;
+import com.bookerdimaio.scrabbledev.service.GamePlayerService;
+import com.bookerdimaio.scrabbledev.service.dto.GameWithPlayersDTO;
 import com.bookerdimaio.scrabbledev.web.rest.errors.BadRequestAlertException;
 import com.bookerdimaio.scrabbledev.service.dto.GameDTO;
+import com.bookerdimaio.scrabbledev.service.dto.GamePlayerDTO;
+import com.bookerdimaio.scrabbledev.service.dto.PlayerDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -35,8 +39,11 @@ public class GameResource {
 
     private final GameService gameService;
 
-    public GameResource(GameService gameService) {
+    private final GamePlayerService gamePlayerService;
+
+    public GameResource(GameService gameService, GamePlayerService gamePlayerService) {
         this.gameService = gameService;
+        this.gamePlayerService = gamePlayerService;
     }
 
     /**
@@ -53,6 +60,43 @@ public class GameResource {
             throw new BadRequestAlertException("A new game cannot already have an ID", ENTITY_NAME, "idexists");
         }
         GameDTO result = gameService.save(gameDTO);
+        return ResponseEntity.created(new URI("/api/games/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * {@code POST  /games/players} : Create a new game with players and GamePlayers.
+     *
+     * @param gameWithPlayersDTO the gameDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new gameDTO, or with status {@code 400 (Bad Request)} if the game could not be created
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/games/players")
+    public ResponseEntity<GameDTO> createGameWithPlayers(@Valid @RequestBody GameWithPlayersDTO gameWithPlayersDTO) throws URISyntaxException {
+        log.debug("REST request to create Game : {} with players", gameWithPlayersDTO);
+        if (gameWithPlayersDTO.getId() != null) {
+            throw new BadRequestAlertException("A new game cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+
+        GameDTO result = gameService.save(gameWithPlayersDTO);
+
+        List<Long> playersToAdd = gameWithPlayersDTO.getPlayersToAdd();
+        log.debug("Incoming list : {}", playersToAdd);
+        GamePlayerDTO gamePlayerDTO = new GamePlayerDTO();
+        gamePlayerDTO.setScore(0);
+        gamePlayerDTO.setRack("TESTRAK");
+        gamePlayerDTO.setGameId(result.getId());
+
+        for (int i = 0; i < playersToAdd.size(); i++) {
+            Long playerId = playersToAdd.get(i);
+            if (playerId == null) { continue; }
+            gamePlayerDTO.setTurnOrder(i);
+            gamePlayerDTO.setPlayerId(playersToAdd.get(i));
+            gamePlayerService.save(gamePlayerDTO);
+            log.debug("Creating GamePlayer for : {}", playersToAdd.get(i));
+        }
+
         return ResponseEntity.created(new URI("/api/games/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

@@ -24,23 +24,27 @@ public class GamePlayer implements Serializable {
     private Long id;
 
     @NotNull
+    @Min(0)
+    @Max(3)
     @Column(name = "turn_order", nullable = false)
     private Integer turnOrder;
 
     @Column(name = "score")
-    private Integer score;
+    private Integer score = 0;
 
     @Size(min = 7, max = 7)
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Pattern(regexp = "^[A-Z?_]*$")
     @Column(name = "rack", length = 7)
-    private String rack;
+    private String rack = "_______";
 
     @ManyToOne
     @JsonIgnoreProperties("gamePlayers")
+    @JoinColumn(name = "game_id")
     private Game game;
 
     @ManyToOne
     @JsonIgnoreProperties("gamePlayers")
+    @JoinColumn(name = "player_id")
     private Player player;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -101,7 +105,11 @@ public class GamePlayer implements Serializable {
     }
 
     public void setGame(Game game) {
+        if (game == this.game) {
+            return;
+        }
         this.game = game;
+        game.addGamePlayers(this);
     }
 
     public Player getPlayer() {

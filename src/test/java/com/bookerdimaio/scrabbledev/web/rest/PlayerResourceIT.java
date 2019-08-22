@@ -160,7 +160,7 @@ public class PlayerResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(player.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getPlayer() throws Exception {
@@ -169,6 +169,20 @@ public class PlayerResourceIT {
 
         // Get the player
         restPlayerMockMvc.perform(get("/api/players/{id}", player.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.id").value(player.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+    }
+
+    @Test
+    @Transactional
+    public void getPlayerByName() throws Exception {
+        // Initialize the database
+        playerRepository.saveAndFlush(player);
+
+        // Get the player
+        restPlayerMockMvc.perform(get("/api/players/name/{name}", player.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(player.getId().intValue()))

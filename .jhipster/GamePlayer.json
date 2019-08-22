@@ -22,8 +22,12 @@
             "fieldName": "turnOrder",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": "3"
         },
         {
             "fieldName": "score",
@@ -39,7 +43,7 @@
             ],
             "fieldValidateRulesMinlength": "7",
             "fieldValidateRulesMaxlength": "7",
-            "fieldValidateRulesPattern": "^[a-zA-Z0-9]*$"
+            "fieldValidateRulesPattern": "^[A-Z?_]*$"
         }
     ],
     "changelogDate": "20190812165119",
