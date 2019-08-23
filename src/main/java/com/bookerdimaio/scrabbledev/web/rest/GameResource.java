@@ -9,7 +9,6 @@ import com.bookerdimaio.scrabbledev.service.dto.GamePlayerDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,7 +79,7 @@ public class GameResource {
         }
 
         GameDTO result = gameService.save(gameWithPlayersDTO);
-        result.setState(StringUtils.repeat("_", 225));
+        result.setState("_".repeat(225));
 
         List<Long> playersToAdd = gameWithPlayersDTO.getPlayersToAdd();
         log.debug("Incoming list : {}", playersToAdd);
