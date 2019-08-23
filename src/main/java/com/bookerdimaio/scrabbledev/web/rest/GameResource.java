@@ -78,8 +78,8 @@ public class GameResource {
             throw new BadRequestAlertException("A new game cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
+        gameWithPlayersDTO.setState("_".repeat(225));
         GameDTO result = gameService.save(gameWithPlayersDTO);
-        result.setState("_".repeat(225));
 
         List<Long> playersToAdd = gameWithPlayersDTO.getPlayersToAdd();
         log.debug("Incoming list : {}", playersToAdd);
