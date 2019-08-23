@@ -6,10 +6,10 @@ import com.bookerdimaio.scrabbledev.service.dto.GameWithPlayersDTO;
 import com.bookerdimaio.scrabbledev.web.rest.errors.BadRequestAlertException;
 import com.bookerdimaio.scrabbledev.service.dto.GameDTO;
 import com.bookerdimaio.scrabbledev.service.dto.GamePlayerDTO;
-import com.bookerdimaio.scrabbledev.service.dto.PlayerDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +80,7 @@ public class GameResource {
         }
 
         GameDTO result = gameService.save(gameWithPlayersDTO);
+        result.setState(StringUtils.repeat("_", 225));
 
         List<Long> playersToAdd = gameWithPlayersDTO.getPlayersToAdd();
         log.debug("Incoming list : {}", playersToAdd);
